@@ -113,7 +113,8 @@ export default function ContactForm() {
 
   return (
     <form
-      className="contact-form"
+      className="contact-form reveal"
+      style={{ '--reveal-delay': '110ms' }}
       ref={formRef}
       onSubmit={handleSubmit}
       noValidate

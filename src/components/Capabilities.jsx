@@ -13,7 +13,7 @@ export default function Capabilities() {
   return (
     <section id="capabilities" className="section-pad capabilities-section">
       <div className="site-container">
-        <div className="section-heading">
+        <div className="section-heading reveal">
           <div>
             <div className="eyebrow">
               <span className="section-index">03</span> CAPABILITIES
@@ -34,8 +34,9 @@ export default function Capabilities() {
             const Icon = icons[capability.id];
             return (
               <article
-                className={`capability-tile capability-${capability.id}`}
+                className={`capability-tile capability-${capability.id} reveal`}
                 key={capability.id}
+                style={{ '--reveal-delay': `${index * 80}ms` }}
               >
                 <div className="capability-top">
                   <span className="capability-icon">

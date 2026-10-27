@@ -227,7 +227,7 @@ function Hero() {
 
 function CredibilityStrip() {
   return (
-    <div className="credibility-strip site-container">
+    <div className="credibility-strip site-container reveal">
       <div className="experience-stat">
         <strong>
           1.5<span>years</span>
@@ -261,7 +261,7 @@ function CredibilityStrip() {
 function About() {
   return (
     <section id="about" className="about-section section-pad site-container">
-      <div className="about-intro">
+      <div className="about-intro reveal">
         <div className="eyebrow">
           <span className="section-index">02</span> THE PERSON BEHIND THE
           STRATEGY
@@ -280,7 +280,7 @@ function About() {
           <ArrowDownRight size={26} aria-hidden="true" />
         </div>
       </div>
-      <div className="about-copy">
+      <div className="about-copy reveal" style={{ '--reveal-delay': '90ms' }}>
         <p className="about-lead">
           I connect what a brand wants to say with what its audience wants to
           hear.
@@ -310,7 +310,7 @@ function Contact() {
       id="contact"
       className="contact-section section-pad site-container"
     >
-      <div className="contact-copy">
+      <div className="contact-copy reveal">
         <div className="eyebrow">
           <span className="section-index">05</span> THE NEXT GOOD IDEA STARTS
           HERE
@@ -354,7 +354,7 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="site-footer site-container">
+    <footer className="site-footer site-container reveal">
       <a href="#home" className="footer-brand" aria-label="Back to top">
         <Mark compact />
         <span>Thoughtful strategy. Meaningful growth.</span>
@@ -369,6 +369,28 @@ function Footer() {
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
+
+  // Reveals each .reveal element once, when it first enters the viewport.
+  useEffect(() => {
+    const targets = [...document.querySelectorAll('.reveal')];
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach((element) => element.classList.add('is-revealed'));
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -8% 0px' },
+    );
+    targets.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <a className="skip-link" href="#main-content">

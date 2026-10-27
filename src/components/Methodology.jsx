@@ -19,7 +19,7 @@ export default function Methodology() {
       id="methodology"
       className="section-pad methodology-section site-container"
     >
-      <div className="methodology-intro">
+      <div className="methodology-intro reveal">
         <div className="eyebrow">
           <span className="section-index">04</span> METHODOLOGY
         </div>
@@ -38,7 +38,11 @@ export default function Methodology() {
         {pillars.map((pillar, index) => {
           const Icon = icons[pillar.id];
           return (
-            <article key={pillar.id} className="pillar">
+            <article
+              key={pillar.id}
+              className="pillar reveal"
+              style={{ '--reveal-delay': `${index * 90}ms` }}
+            >
               <div className="pillar-top">
                 <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
                 <span>0{index + 1}</span>

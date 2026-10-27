@@ -171,7 +171,7 @@ export default function CaseStudies({ onOpen }) {
       : projects.filter((project) => project.discipline === filter);
   return (
     <section id="work" className="section-pad site-container">
-      <div className="section-heading">
+      <div className="section-heading reveal">
         <div>
           <div className="eyebrow">
             <span className="section-index">01</span> SELECTED WORK

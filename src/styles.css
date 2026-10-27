@@ -2421,6 +2421,80 @@
   }
 }
 
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes status-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px #82dfb714;
+  }
+  50% {
+    box-shadow: 0 0 0 7px #82dfb71f;
+  }
+}
+
+/* Motion is opt-in: without a stated preference for it, everything renders at rest. */
+@media (prefers-reduced-motion: no-preference) {
+  /* .reveal starts hidden and is un-hidden by the scroll observer in App. */
+  .reveal {
+    opacity: 0;
+  }
+  .reveal.is-revealed {
+    animation: rise-in 640ms cubic-bezier(0.22, 1, 0.36, 1)
+      var(--reveal-delay, 0ms) both;
+  }
+  /* The hero assembles on load instead of arriving in one block. */
+  .hero-eyebrow,
+  .hero h1,
+  .hero-intro,
+  .hero-description,
+  .hero-actions,
+  .hero-footnote,
+  .hero-art,
+  .hero-scroll {
+    animation: rise-in 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero-eyebrow {
+    animation-delay: 40ms;
+  }
+  .hero h1 {
+    animation-delay: 110ms;
+  }
+  .hero-art {
+    animation-delay: 130ms;
+  }
+  .hero-intro {
+    animation-delay: 190ms;
+  }
+  .hero-description {
+    animation-delay: 240ms;
+  }
+  .hero-actions {
+    animation-delay: 300ms;
+  }
+  .hero-footnote {
+    animation-delay: 370ms;
+  }
+  .hero-scroll {
+    animation-delay: 440ms;
+  }
+  /* Tab panels re-enter when a case study dialog switches tabs. */
+  .dialog-panel:not([hidden]) {
+    animation: rise-in 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .status-dot {
+    animation: status-pulse 2.6s ease-in-out infinite;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
