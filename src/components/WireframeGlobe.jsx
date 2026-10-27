@@ -40,7 +40,7 @@ export default function WireframeGlobe() {
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 30);
         camera.position.z = 5.7;
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
-        renderer.setClearColor(0x09090b, 0);
+        renderer.setClearColor(0xe9f5ef, 0);
         renderer.domElement.setAttribute('aria-hidden', 'true');
         host.appendChild(renderer.domElement);
 
@@ -51,23 +51,23 @@ export default function WireframeGlobe() {
         const sphereGeometry = new THREE.SphereGeometry(1.38, 32, 20);
         const wireGeometry = new THREE.WireframeGeometry(sphereGeometry);
         const wireMaterial = new THREE.LineBasicMaterial({
-          color: 0x64b99b,
+          color: 0x1f8a5c,
           transparent: true,
-          opacity: 0.22,
+          opacity: 0.3,
         });
         const wire = new THREE.LineSegments(wireGeometry, wireMaterial);
         group.add(wire);
 
-        // A faint inner surface hides rear edges for a restrained technical globe.
-        const coreMaterial = new THREE.MeshBasicMaterial({ color: 0x090c0c });
+        // A solid inner surface hides rear edges for a restrained technical globe.
+        const coreMaterial = new THREE.MeshBasicMaterial({ color: 0xe9f5ef });
         const coreGeometry = new THREE.SphereGeometry(1.365, 32, 24);
         const core = new THREE.Mesh(coreGeometry, coreMaterial);
         group.add(core);
 
         const ringMaterial = new THREE.LineBasicMaterial({
-          color: 0x91dfbf,
+          color: 0x2f9b6b,
           transparent: true,
-          opacity: 0.35,
+          opacity: 0.45,
         });
         const ringGeometries = [];
         const rings = [];
@@ -106,10 +106,10 @@ export default function WireframeGlobe() {
           new THREE.Float32BufferAttribute(particlePositions, 3),
         );
         const particleMaterial = new THREE.PointsMaterial({
-          color: 0x9ddac0,
+          color: 0x3f8f6c,
           size: 0.018,
           transparent: true,
-          opacity: 0.55,
+          opacity: 0.5,
         });
         const particles = new THREE.Points(particleGeometry, particleMaterial);
         scene.add(particles);
