@@ -44,6 +44,11 @@ export default function WireframeGlobe() {
         renderer.domElement.setAttribute('aria-hidden', 'true');
         host.appendChild(renderer.domElement);
 
+        // Colours come from the same tokens as the rest of the page, so the
+        // globe follows the active theme without a second source of truth.
+        const themeColor = (name, fallback) =>
+          getComputedStyle(host).getPropertyValue(name).trim() || fallback;
+
         const group = new THREE.Group();
         group.rotation.z = -0.32;
         scene.add(group);
@@ -51,7 +56,7 @@ export default function WireframeGlobe() {
         const sphereGeometry = new THREE.SphereGeometry(1.38, 32, 20);
         const wireGeometry = new THREE.WireframeGeometry(sphereGeometry);
         const wireMaterial = new THREE.LineBasicMaterial({
-          color: 0x1f8a5c,
+          color: themeColor('--globe-wire', '#1f8a5c'),
           transparent: true,
           opacity: 0.3,
         });
@@ -59,13 +64,15 @@ export default function WireframeGlobe() {
         group.add(wire);
 
         // A solid inner surface hides rear edges for a restrained technical globe.
-        const coreMaterial = new THREE.MeshBasicMaterial({ color: 0xe9f5ef });
+        const coreMaterial = new THREE.MeshBasicMaterial({
+          color: themeColor('--globe-core', '#e9f5ef'),
+        });
         const coreGeometry = new THREE.SphereGeometry(1.365, 32, 24);
         const core = new THREE.Mesh(coreGeometry, coreMaterial);
         group.add(core);
 
         const ringMaterial = new THREE.LineBasicMaterial({
-          color: 0x2f9b6b,
+          color: themeColor('--globe-ring', '#2f9b6b'),
           transparent: true,
           opacity: 0.45,
         });
@@ -106,13 +113,27 @@ export default function WireframeGlobe() {
           new THREE.Float32BufferAttribute(particlePositions, 3),
         );
         const particleMaterial = new THREE.PointsMaterial({
-          color: 0x3f8f6c,
+          color: themeColor('--globe-dot', '#3f8f6c'),
           size: 0.018,
           transparent: true,
           opacity: 0.5,
         });
         const particles = new THREE.Points(particleGeometry, particleMaterial);
         scene.add(particles);
+
+        function repaint() {
+          wireMaterial.color.set(themeColor('--globe-wire', '#1f8a5c'));
+          coreMaterial.color.set(themeColor('--globe-core', '#e9f5ef'));
+          ringMaterial.color.set(themeColor('--globe-ring', '#2f9b6b'));
+          particleMaterial.color.set(themeColor('--globe-dot', '#3f8f6c'));
+          renderer.render(scene, camera);
+        }
+
+        const themeObserver = new MutationObserver(repaint);
+        themeObserver.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['data-theme'],
+        });
 
         const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const target = { x: 0, y: 0 };
@@ -187,6 +208,7 @@ export default function WireframeGlobe() {
           renderer.setAnimationLoop(null);
           resizeObserver.disconnect();
           intersectionObserver.disconnect();
+          themeObserver.disconnect();
           host.removeEventListener('pointermove', pointerMove);
           host.removeEventListener('pointerleave', pointerLeave);
           motion.removeEventListener('change', updateAnimation);

@@ -8,7 +8,9 @@ import {
   Globe2,
   Mail,
   Menu,
+  Moon,
   Phone,
+  Sun,
   TrendingUp,
   Truck,
   X,
@@ -28,6 +30,67 @@ const navigation = [
   { id: 'methodology', label: 'Methodology' },
 ];
 
+const THEME_KEY = 'theme';
+const THEME_COLOR = { light: '#e9f5ef', dark: '#0d0f0e' };
+
+function readStoredTheme() {
+  try {
+    const stored = window.localStorage.getItem(THEME_KEY);
+    if (stored === 'light' || stored === 'dark') return stored;
+  } catch {
+    /* Storage can be blocked; fall back to the system preference. */
+  }
+  return null;
+}
+
+/** Follows the system setting until the visitor makes an explicit choice. */
+function useTheme() {
+  const [theme, setTheme] = useState(
+    () =>
+      document.documentElement.dataset.theme ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'),
+  );
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.theme = theme;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', THEME_COLOR[theme]);
+
+    if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches)
+      return undefined;
+    // Colour transitions are enabled only for the swap itself, so the
+    // existing hover transitions keep their own timing.
+    root.classList.add('is-theming');
+    const timer = window.setTimeout(() => root.classList.remove('is-theming'), 260);
+    return () => window.clearTimeout(timer);
+  }, [theme]);
+
+  useEffect(() => {
+    if (readStoredTheme()) return undefined;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const sync = () => setTheme(media.matches ? 'dark' : 'light');
+    media.addEventListener('change', sync);
+    return () => media.removeEventListener('change', sync);
+  }, [theme]);
+
+  const toggle = () => {
+    setTheme((current) => {
+      const next = current === 'dark' ? 'light' : 'dark';
+      try {
+        window.localStorage.setItem(THEME_KEY, next);
+      } catch {
+        /* Storage can be blocked; the choice simply will not persist. */
+      }
+      return next;
+    });
+  };
+
+  return [theme, toggle];
+}
+
 function Mark({ compact = false }) {
   return (
     <span
@@ -42,6 +105,7 @@ function Mark({ compact = false }) {
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('');
+  const [theme, toggleTheme] = useTheme();
 
   useEffect(() => {
     const sections = [...document.querySelectorAll('main section[id]')];
@@ -113,6 +177,20 @@ function Navbar() {
         <a href="#contact" className="nav-contact">
           Let’s talk <ArrowUpRight size={15} aria-hidden="true" />
         </a>
+        <button
+          type="button"
+          className="icon-button theme-toggle"
+          onClick={toggleTheme}
+          aria-label={
+            theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+          }
+        >
+          {theme === 'dark' ? (
+            <Sun size={17} aria-hidden="true" />
+          ) : (
+            <Moon size={17} aria-hidden="true" />
+          )}
+        </button>
         <button
           id="mobile-menu-toggle"
           className="icon-button mobile-toggle"
