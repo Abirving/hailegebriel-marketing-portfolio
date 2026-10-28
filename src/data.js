@@ -6,7 +6,10 @@ export const profile = {
   email: 'hailegebrielsamuel@gmail.com',
   phone: '+251945239422',
   displayPhone: '+251 945 239 422',
-  website: 'hailegebriel.vercel.app',
+  // Placeholder social links: swap in the real handles before publishing.
+  telegram: 'https://t.me/@AB_KYRIE_IRVING11',
+  linkedin: 'https://linkedin.com/in/hailegebriel-samuel',
+ 
   bio: 'Turning brand goals into measurable digital outcomes, leveraging analytics to optimize every campaign, and crafting compelling narratives across multiple platforms.',
 };
 
@@ -17,7 +20,7 @@ export const projects = [
     name: 'WALTA GPS',
     category: 'Consumer Tech & Navigation',
     discipline: 'Organic growth',
-    liveUrl: 'https://www.tiktok.com/@waltagps',
+    liveUrl: 'https://www.tiktok.com/@waltagps1',
     sourceReference: 6,
     headline: 'Big reach. Intentional storytelling.',
     mainMetric: '84.9M',
@@ -91,7 +94,7 @@ export const projects = [
     name: 'CHENET P.L.C',
     category: 'Logistics & Freight',
     discipline: 'Brand awareness',
-    liveUrl: 'https://www.tiktok.com/@chenetplc',
+    liveUrl: 'https://www.tiktok.com/@chenetlogistics2',
     sourceReference: 5,
     headline: 'Making logistics worth watching.',
     mainMetric: '46.8M',
@@ -176,7 +179,7 @@ export const projects = [
     name: 'HABESHA BYTES',
     category: 'Tech Media & Digital Culture',
     discipline: 'Audience conversion',
-    liveUrl: 'https://www.tiktok.com/@habeshabytes',
+    liveUrl: 'https://www.tiktok.com/@habesha_bytes?is_from_webapp=1&sender_device=pc',
     sourceReference: 7,
     headline: 'Views are good. Community is better.',
     mainMetric: '3.71%',
