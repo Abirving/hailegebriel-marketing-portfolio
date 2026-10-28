@@ -162,6 +162,8 @@ export default function ContactForm() {
           <select name="service" defaultValue="">
             <option value="">Let’s explore the possibilities</option>
             <option>Social Media Marketing</option>
+            <option>AI Content Creation</option>
+             <option>Video Editing</option> 
             <option>Content Strategy</option>
             <option>Email &amp; Retention Marketing</option>
             <option>Algorithmic SEO &amp; Discovery</option>
